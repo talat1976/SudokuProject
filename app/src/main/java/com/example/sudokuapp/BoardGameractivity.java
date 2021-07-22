@@ -9,23 +9,34 @@ import android.widget.Button;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class BoardGameractivity extends Activity {
-
-    private Button logout;
+    public static final String MSG_KEY = "com.example.sudokuapp.BoardGameractivity.extra";
+    public static int num;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.bordgamer);
-       logout = findViewById(R.id.logout);
-        logout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FirebaseAuth.getInstance().signOut();
-                Intent intent = new Intent(BoardGameractivity.this,MainActivity.class);
-                startActivity(intent);
-                finish();
-            }
-        });
     }
 
+
+    public void easyClick(View view) {
+         num = 33;
+        Intent intent = new Intent(this,SudokuActivity.class);
+        intent.putExtra(MSG_KEY, num);
+        startActivity(intent);
+    }
+
+    public void mediomClick(View view) {
+        num = 41;
+        Intent intent = new Intent(this,SudokuActivity.class);
+        intent.putExtra(MSG_KEY, num);
+        startActivity(intent);
+    }
+
+    public void hardClick(View view) {
+        num = 56;
+        Intent intent = new Intent(this,SudokuActivity.class);
+        intent.putExtra(MSG_KEY, num);
+        startActivity(intent);
+    }
 }
