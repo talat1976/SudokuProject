@@ -15,6 +15,8 @@
         custom:cellFillColor="#6600DDFF"
         custom:cellsHighlightColor="#2600DDFF"
         custom:letterColor="@color/black"
+        custom:numberInput="@color/purple_700"
+        custom:wrongNumber="@color/red"
         custom:layout_constraintEnd_toEndOf="parent"
         custom:layout_constraintStart_toStartOf="parent"
         custom:layout_constraintTop_toTopOf="parent"/>
@@ -129,17 +131,18 @@
 
     </LinearLayout>
 
-<!--    <Button-->
-<!--        android:id="@+id/solveButton"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginTop="52dp"-->
-<!--        android:onClick="solve"-->
-<!--        android:text="@string/solve"-->
-<!--        custom:layout_constraintEnd_toEndOf="parent"-->
-<!--        custom:layout_constraintHorizontal_bias="0.498"-->
-<!--        custom:layout_constraintStart_toStartOf="parent"-->
-<!--        custom:layout_constraintTop_toBottomOf="@+id/linearLayout" />-->
+    <Button
+        android:id="@+id/solveButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="56dp"
+        android:onClick="clean"
+        android:text="@string/back"
+        custom:layout_constraintEnd_toEndOf="parent"
+        custom:layout_constraintHorizontal_bias="0.093"
+        custom:layout_constraintStart_toStartOf="parent"
+        custom:layout_constraintTop_toBottomOf="@+id/linearLayout"
+        tools:ignore="OnClick" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

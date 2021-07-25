@@ -6,5 +6,7 @@
         <attr name="cellsHighlightColor" format="color"/>
         <attr name="letterColor" format="color"/>
         <attr name="letterColorSolve" format="color"/>
+        <attr name="numberInput" format="color"/>
+        <attr name="wrongNumber" format="color"/>
     </declare-styleable>
 </resources>

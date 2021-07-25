@@ -19,6 +19,8 @@ public class SudokuBoard extends View{
 
     private final int letterColor;
     private final int letterColorSolve;
+    private final int numberInput;
+    private final int wrongNumber;
 
 
     private final Paint boardColorPaint = new Paint();
@@ -27,11 +29,12 @@ public class SudokuBoard extends View{
 
     private final Paint letterPaint = new Paint();
     private final Rect letterPaintBounds = new Rect();
-    // private final Paint letterColorSolvePaint = new Paint();
+    private final Paint numberInputPaint = new Paint();
+    private final Paint wrongNumberPaint = new Paint();
 
     private int cellSize;
 
-    private final SudokuAnitilazer sAnitilazer = new SudokuAnitilazer();
+    private final SudokuInitilazer sInitilazer = new SudokuInitilazer();
 
     public SudokuBoard(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
@@ -45,6 +48,9 @@ public class SudokuBoard extends View{
             cellsHighlightColor =arr.getInteger(R.styleable.SudokuBoard_cellsHighlightColor,0);
             letterColor = arr.getInteger(R.styleable.SudokuBoard_letterColor,0);
             letterColorSolve = arr.getInteger(R.styleable.SudokuBoard_letterColorSolve,0);
+            numberInput = arr.getInteger(R.styleable.SudokuBoard_numberInput, 0);
+            wrongNumber = arr.getInteger(R.styleable.SudokuBoard_wrongNumber,0);
+
         }finally {
             arr.recycle();
         }
@@ -83,10 +89,20 @@ public class SudokuBoard extends View{
         letterPaint.setAntiAlias(true);
         letterPaint.setColor(letterColor);
 
-        colorCell(canvas, sAnitilazer.getSelected_row(), sAnitilazer.getSelected_column());
+        numberInputPaint.setStyle(Paint.Style.FILL);
+        numberInputPaint.setAntiAlias(true);
+        numberInputPaint.setColor(numberInput);
+
+        wrongNumberPaint.setStyle(Paint.Style.FILL);
+        wrongNumberPaint.setAntiAlias(true);
+        wrongNumberPaint.setColor(wrongNumber);
+
+        colorCell(canvas, sInitilazer.getSelected_row(), sInitilazer.getSelected_column());
         canvas.drawRect(0,0,width,height, boardColorPaint);
         drawBoard(canvas);
         drawNumbers(canvas);
+       // checkNumbers(canvas);
+
     }
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -99,8 +115,8 @@ public class SudokuBoard extends View{
         int action = event.getAction();
 
         if(action == MotionEvent.ACTION_DOWN){
-            sAnitilazer.setSelected_row((int)Math.ceil(y/cellSize));
-            sAnitilazer.setSelected_column((int)Math.ceil(x/cellSize));
+            sInitilazer.setSelected_row((int)Math.ceil(y/cellSize));
+            sInitilazer.setSelected_column((int)Math.ceil(x/cellSize));
             isValid = true;
         }
         else{
@@ -109,14 +125,13 @@ public class SudokuBoard extends View{
 
         return isValid;
     }
-    private void drawNumbers(Canvas canvas){
+    public void drawNumbers(Canvas canvas){
 
         letterPaint.setTextSize(cellSize);
         for (int row = 0; row < 9 ; row++){
             for (int col = 0; col < 9 ; col++){
-                if(sAnitilazer.getBoard()[row][col] != 0){
-                    String text = Integer.toString(sAnitilazer.getBoard()[row][col]);
-                    System.out.println(text);
+                if(SudokuInitilazer.getBoard()[row][col] != 0){
+                    String text = Integer.toString(SudokuInitilazer.getBoard()[row][col]);
                     float widthN;
                     float heightN;
 
@@ -134,8 +149,35 @@ public class SudokuBoard extends View{
         letterPaint.setColor(letterColorSolve);
     }
 
+//    public void checkNumbers(Canvas canvas) {
+//        float widthN;
+//        float heightN;
+//        String text;
+//        numberInputPaint.setTextSize(cellSize);
+//        if (SudokuActivity.ras) {
+//                text = Integer.toString(SudokuInitilazer.getBoard()[sInitilazer.getSelected_row()][sInitilazer.getSelected_column()]);
+//                numberInputPaint.getTextBounds(text, 0, text.length(), letterPaintBounds);
+//                widthN = numberInputPaint.measureText(text);
+//                heightN = letterPaintBounds.height();
+//
+//                canvas.drawText(text, (sInitilazer.getSelected_column() * cellSize) + ((cellSize - widthN) / 2),
+//                        (sInitilazer.getSelected_row() * cellSize + cellSize) - ((cellSize - heightN) / 2),
+//                        numberInputPaint);
+//                numberInputPaint.setColor(numberInput);
+//            } else {
+//                text = Integer.toString(SudokuInitilazer.getBoard()[sInitilazer.getSelected_row()][sInitilazer.getSelected_column()]);
+//                wrongNumberPaint.getTextBounds(text, 0, text.length(), letterPaintBounds);
+//                widthN = wrongNumberPaint.measureText(text);
+//                heightN = letterPaintBounds.height();
+//
+//                canvas.drawText(text, (sInitilazer.getSelected_column() * cellSize) + ((cellSize - widthN) / 2),
+//                        (sInitilazer.getSelected_row() * cellSize + cellSize) - ((cellSize - heightN) / 2),
+//                        wrongNumberPaint);
+//                wrongNumberPaint.setColor(wrongNumber);
+//            } }
+
     private void colorCell(Canvas canvas, int row, int col){
-        if(sAnitilazer.getSelected_column() != -1 && sAnitilazer.getSelected_row() != -1){
+        if(sInitilazer.getSelected_column() != -1 && sInitilazer.getSelected_row() != -1){
             canvas.drawRect((col-1)*cellSize,0,col*cellSize, cellSize*9,
                     cellsHighlightColorPaint);
             canvas.drawRect(0,(row-1)*cellSize,cellSize*9, row*cellSize ,
@@ -145,6 +187,8 @@ public class SudokuBoard extends View{
         }
         invalidate();
     }
+
+
 
     private void drawTickLine(){
         boardColorPaint.setStyle(Paint.Style.STROKE);
@@ -178,8 +222,8 @@ public class SudokuBoard extends View{
         }
     }
 
-    public SudokuAnitilazer getNumbers(){
-        return this.sAnitilazer;
+    public SudokuInitilazer getNumbers(){
+        return this.sInitilazer;
     }
 
 }
